@@ -2,7 +2,7 @@
 .DEFAULT_GOAL := help
 
 .PHONY: all 
-all: deploy_infra deploy_tetrate describe ## Deploy the complete demo stack
+all: deploy_infra describe ## Deploy the complete demo stack
 
 .PHONY: help
 help: Makefile ## Print help
@@ -19,10 +19,6 @@ deploy_addons: deploy_addons_load-balancer-controller deploy_addons_fluxcd deplo
 deploy_addons_%:
 	@/bin/sh -c './make/addons.sh deploy_$*'
 
-.PHONY: deploy_tetrate
-deploy_tetrate: deploy_tetrate_managementplane deploy_tetrate_controlplane ## Deploy Tetrate Service Express
-deploy_tetrate_%: 
-	@/bin/sh -c './make/tetrate_$*.sh deploy'
 
 .PHONY: describe
 describe: describe_demo ## Describe the complete demo stack
@@ -31,11 +27,7 @@ describe_%:
 
 .PHONY: demo
 demo_01-deploy-application: demo_01-deploy-application ## Deploy the demo application
-demo_02-mtls: demo_01-deploy-application demo_02-mtls ## Lunch the mTLS demo
-demo_03-zero-trust: demo_01-deploy-application demo_03-zero-trust ## Lunch the Zero Trust demo 
-demo_04-publish-service: demo_01-deploy-application demo_04-publish-service ## Lunch the Service Publishing demo
-demo_05-publish-api: demo_01-deploy-application demo_05-publish-api ## Lunch the API Publishing demo
-demo_all: demo_01-deploy-application demo_02-mtls demo_03-zero-trust demo_04-publish-service demo_05-publish-api ## Setup all demos
+demo_all: demo_01-deploy-application ## Setup all demos
 demo_%:
 	@/bin/sh -c './make/demo.sh $*'
 
